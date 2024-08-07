@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="your house." />
+  <meta property="og:description" content="this is my homepage, please come see!" />
+  <meta property="og:url" content="https://voizuu.bitbucket.io/" />
+  <meta property="og:image" content="https://voizuu.bitbucket.io/resources/images/profile.jpg" />
+
+  <!-- Metadata -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="ANSI" />
+
+  <!-- Browser Tab -->
+  <link rel="icon" href="./resources/images/profile.jpg" sizes="32x32" />
+  <title>your house.</title>
+
+  <!-- Styles -->
+  <link rel=stylesheet href="style.css" />
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-821D96GE0C"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'G-821D96GE0C');
+
+  </script>
+
+</head>
+
+<body>
+  
+  <style>
+  
+    .hide {
+      display: none;
+    }
+  
+  </style>
+
+  <main class="container" style="grid-column: auto;">
+    
+    <nav class="hide" style="width: 25px; height: 500px; background-color: green;">
+
+      <ul style="list-style: none;">
+
+        <li><i></i></li>
+        <li></li>
+        <li></li>
+
+      </ul>
+
+    </nav>
+
+    <!-- Front, Profile Card -->
+    <div class="card">
+      <!-- Photo -->
+      <div class="photo">
+        <!-- Image -->
+        <img style="position: relative; top:-60px;" id="photo" class="normal" draggable="false" onContextMenu="return false;" src="./resources/images/profile.jpg"/>
+      </div>
+
+      <!-- Body -->
+      <div class="body">
+        <!-- Post -->
+        <div class="post">
+          <!-- Name, English: your house., Korean: 유르 하우스의, Japanese: 御宅 -->
+          <h1 class="normal">your house.</h1>
+
+          <!-- Message -->
+          <p class="normal">
+            welcome to my homepage! feel free to check out my social media listed below. you'll also find my projects hosted throughout this site.
+          </p>
+
+          <!-- Info -->
+          <div class="info">
+            <!-- Language -->
+            <div class="language">
+              <span class="normal">lanugage</span>
+              <i style="cursor: pointer;" onclick="switchLanguage()" class="fas fa-language fa-2x"></i>
+            </div>
+
+            <!-- Social Media -->
+            <div class="social">
+              <span class="normal">social media</span>
+              <div class="media">
+                <ul>
+                  <!-- Twitter -->
+                  <li>
+                    <a class="normal" href="https://twitter.com/voizuu">twitter</a>
+                  </li>
+
+                  <!-- Discord -->
+                  <li>
+                    <a class="normal" href="https://www.youtube.com/channel/UCFRidNJ_6mkyF9pzu9jlRyg">youtube</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+
+  </footer>
+</body>
+
+</html>
+
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import {
+    initializeApp
+  } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+  import {
+    getAnalytics
+  } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyBjl5wcwLi7Dt-5ptmuHe0sGXFD8yv5AhQ",
+    authDomain: "voizuu-bitbucket-io.firebaseapp.com",
+    projectId: "voizuu-bitbucket-io",
+    storageBucket: "voizuu-bitbucket-io.appspot.com",
+    messagingSenderId: "718345176000",
+    appId: "1:718345176000:web:dddc76577d795f143a7e25",
+    measurementId: "G-JM2VZRXVRG"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+
+</script>
+
+<script>
+  console.log("Understand this gibberish? Feel free to send me a message! I'd love to collaborate.");
+
+  function switchLanguage() {
+    alert('incomplete');
+  }
+
+  function saveToFirebase(email) {
+    var emailObject = {
+      email: email
+    };
+
+    firebase.database().ref('subscription-entries').push().set(emailObject)
+      .then(function(snapshot) {
+        success(); // some success method
+      }, function(error) {
+        console.log('error' + error);
+        error(); // some error method
+      });
+  }
+
+  saveToFirebase(email);
+
+</script>
+
+<script src="https://kit.fontawesome.com/8d4aa99aba.js" crossorigin="anonymous"></script> <!-- Font Awesome -->
