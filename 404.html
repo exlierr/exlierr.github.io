@@ -1,0 +1,100 @@
+<script>
+
+// Extract Twitter username and tweet ID from URL
+function getTwitterInfoFromPath() {
+    const path = window.location.pathname;
+    const pattern = /\/([^\/]+)\/status\/(\d+)/;
+    const match = path.match(pattern);
+    if (match) {
+        return {
+            username: match[1],
+            tweetId: match[2],
+            tweetUrl: `https://twitter.com/${match[1]}/status/${match[2]}`
+        };
+    }
+    return null;
+}
+
+// Fetch tweet data using Twitter's oEmbed API
+async function fetchTweetData(tweetUrl) {
+    const oEmbedUrl = `https://publish.twitter.com/oembed?url=${encodeURIComponent(tweetUrl)}&omit_script=1`;
+    try {
+        const response = await fetch(oEmbedUrl);
+        return await response.json();
+    } catch (error) {
+        console.error("Failed to fetch tweet:", error);
+        return null;
+    }
+}
+
+// Generate Open Graph tags for Discord/other platforms
+function generateOpenGraphTags(twitterInfo, oEmbedData) {
+    const title = oEmbedData?.author_name || `Tweet by @${twitterInfo.username}`;
+    const description = oEmbedData?.title || "Click to view this tweet on Twitter.";
+    const image = oEmbedData?.html.match(/src="([^"]+)"/)?. [1] || "https://abs.twimg.com/icons/apple-touch-icon-192x192.png";
+    const video = oEmbedData?.html.match(/<video[^>]+src="([^">]+)"/)?. [1];
+
+    const metaTags = [
+        {
+            property: "og:title",
+            content: title
+                },
+        {
+            property: "og:description",
+            content: description
+                },
+        {
+            property: "og:url",
+            content: twitterInfo.tweetUrl
+                },
+        {
+            property: "og:type",
+            content: "article"
+                },
+        {
+            property: "og:image",
+            content: image
+                },
+        {
+            property: "twitter:card",
+            content: video ? "player" : "summary_large_image"
+                },
+            ];
+
+    if (video) {
+        metaTags.push({
+            property: "og:video",
+            content: video
+        }, {
+            property: "og:video:type",
+            content: "video/mp4"
+        }, {
+            property: "og:video:width",
+            content: "1280"
+        }, {
+            property: "og:video:height",
+            content: "720"
+        });
+    }
+
+    metaTags.forEach(tag => {
+        const meta = document.createElement("meta");
+        meta.setAttribute("property", tag.property);
+        meta.setAttribute("content", tag.content);
+        document.head.appendChild(meta);
+    });
+}
+
+// Redirect to Twitter after displaying OG tags
+window.onload = async function () {
+    const twitterInfo = getTwitterInfoFromPath();
+
+    const oEmbedData = await fetchTweetData(twitterInfo.tweetUrl);
+    generateOpenGraphTags(twitterInfo, oEmbedData);
+
+    setTimeout(() => {
+        window.location.href = twitterInfo.tweetUrl;
+    }, 1000);
+};
+  
+</script>
